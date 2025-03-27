@@ -2,11 +2,12 @@ package com.luis.picpaysimplicadochallenger.domain;
 
 import com.luis.picpaysimplicadochallenger.ultis.UserType;
 import jakarta.persistence.*;
+
 import java.util.UUID;
 
 @Entity(name = "users")
 @Table(name = "users")
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,7 +20,8 @@ public class Users {
     private String codeId;
 
     @Column(nullable = false, unique = true)
-    private String codeTransfer;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer codeTransfer;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -27,23 +29,23 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserType usersType;
 
     @Column(nullable = false)
-    private Float wallet;
+    private Float wallet = 0.0F;
 
-    public Users(String name, String codeId, String codeTransfer, String email, String password, UserType usersType, Float wallet) {
+    public User(String name, String email, String password, String codeId, UserType usersType) {
         this.name = name;
         this.codeId = codeId;
-        this.codeTransfer = codeTransfer;
         this.email = email;
         this.password = password;
         this.usersType = usersType;
-        this.wallet = wallet;
+        this.wallet = 0.0F;
     }
 
-    public Users() {
+    public User() {
 
     }
 
@@ -71,11 +73,11 @@ public class Users {
         this.codeId = codeId;
     }
 
-    public String getCodeTransfer() {
+    public Integer getCodeTransfer() {
         return codeTransfer;
     }
 
-    public void setCodeTransfer(String codeTransfer) {
+    public void setCodeTransfer(Integer codeTransfer) {
         this.codeTransfer = codeTransfer;
     }
 

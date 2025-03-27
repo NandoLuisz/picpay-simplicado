@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Entity(name = "transfers")
 @Table(name = "transfers")
-public class Transfers {
+public class Transfer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,13 +21,13 @@ public class Transfers {
     @Column(nullable = false)
     private Integer payee;
 
-    public Transfers(Float value, Integer payer, Integer payee) {
+    public Transfer(Float value, Integer payer, Integer payee) {
         this.value = value;
         this.payer = payer;
         this.payee = payee;
     }
 
-    public Transfers() {
+    public Transfer() {
 
     }
 
