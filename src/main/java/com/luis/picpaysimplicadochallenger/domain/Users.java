@@ -16,7 +16,10 @@ public class Users {
     private String name;
 
     @Column(nullable = false, unique = true)
-    private String cpf;
+    private String codeId;
+
+    @Column(nullable = false, unique = true)
+    private String codeTransfer;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -27,12 +30,17 @@ public class Users {
     @Column(nullable = false)
     private UserType usersType;
 
-    public Users(String name, String cpf, String email, String password, UserType usersType) {
+    @Column(nullable = false)
+    private Float wallet;
+
+    public Users(String name, String codeId, String codeTransfer, String email, String password, UserType usersType, Float wallet) {
         this.name = name;
-        this.cpf = cpf;
+        this.codeId = codeId;
+        this.codeTransfer = codeTransfer;
         this.email = email;
         this.password = password;
         this.usersType = usersType;
+        this.wallet = wallet;
     }
 
     public Users() {
@@ -55,12 +63,20 @@ public class Users {
         this.name = name;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCodeId() {
+        return codeId;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
+    }
+
+    public String getCodeTransfer() {
+        return codeTransfer;
+    }
+
+    public void setCodeTransfer(String codeTransfer) {
+        this.codeTransfer = codeTransfer;
     }
 
     public String getEmail() {
@@ -85,5 +101,13 @@ public class Users {
 
     public void setUsersType(UserType usersType) {
         this.usersType = usersType;
+    }
+
+    public Float getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Float wallet) {
+        this.wallet = wallet;
     }
 }
