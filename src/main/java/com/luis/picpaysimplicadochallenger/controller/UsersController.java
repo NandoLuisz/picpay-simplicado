@@ -1,8 +1,10 @@
 package com.luis.picpaysimplicadochallenger.controller;
 
 import com.luis.picpaysimplicadochallenger.domain.User;
+import com.luis.picpaysimplicadochallenger.dto.UserDepositMoneyDto;
 import com.luis.picpaysimplicadochallenger.dto.UserRequest;
 import com.luis.picpaysimplicadochallenger.dto.UserResponse;
+import com.luis.picpaysimplicadochallenger.dto.UserWithdrawMoneyDto;
 import com.luis.picpaysimplicadochallenger.repository.UsersRepository;
 import com.luis.picpaysimplicadochallenger.service.UsersService;
 import com.luis.picpaysimplicadochallenger.ultis.RandomCode;
@@ -52,6 +54,35 @@ public class UsersController {
                 );
         usersRepository.save(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado com sucesso.");
+    }
+
+    @PutMapping("/deposit-money-in-the-wallet")
+    public ResponseEntity<String> depositMoneyInTheWallet(@Valid @RequestBody UserDepositMoneyDto userInsertMoneyDto){
+        Optional<User> userExist = this.usersRepository.findUserByCodeId(userInsertMoneyDto.codeId());
+        if(userExist.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário com o CPF/CNPJ" + userInsertMoneyDto.codeId() + "não encontrado.");
+        }
+
+        User user = userExist.get();
+        user.setWallet(user.getWallet() + userInsertMoneyDto.value());
+        this.usersRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body("Valor inserido com sucesso.");
+    }
+
+    @PutMapping("/withdraw-money-from-the-wallet")
+    public ResponseEntity<String> withdrawMoneyFromTheWallet(@Valid @RequestBody UserWithdrawMoneyDto userWithdrawMoneyDto){
+        Optional<User> userExist = this.usersRepository.findUserByCodeId(userWithdrawMoneyDto.codeId());
+        if(userExist.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário com o CPF/CNPJ" + userWithdrawMoneyDto.codeId() + "não encontrado.");
+        }
+
+        User user = userExist.get();
+        if(userWithdrawMoneyDto.value() > user.getWallet()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Valor da retirada maior doque é possível.");
+        }
+        user.setWallet(user.getWallet() - userWithdrawMoneyDto.value());
+        this.usersRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body("Valor retirado com sucesso.");
     }
 
     @GetMapping("get-all-users")
