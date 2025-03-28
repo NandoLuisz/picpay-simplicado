@@ -23,5 +23,5 @@ public record UserRequest(
         String codeId,
 
         @NotNull(message = "O tipo de usuário é obrigatório.")
-        UserType usersType){
+        UserType userType){
 }

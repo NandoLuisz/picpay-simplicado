@@ -10,18 +10,11 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false, unique = true)
-    private String codeId;
-
-    @Column(nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer codeTransfer;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -29,24 +22,31 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false, unique = true)
+    private String codeId;
+
+    @Column(nullable = false, unique = true)
+    private Integer codeTransfer;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserType usersType;
+    private UserType userType;
 
     @Column(nullable = false)
-    private Float wallet = 0.0F;
+    private Float wallet;
 
-    public User(String name, String email, String password, String codeId, UserType usersType) {
+    public User(String name, String email, String password, String codeId, UserType userType, Integer codeTransfer) {
         this.name = name;
-        this.codeId = codeId;
         this.email = email;
         this.password = password;
-        this.usersType = usersType;
+        this.codeId = codeId;
+        this.userType = userType;
         this.wallet = 0.0F;
+        this.codeTransfer = codeTransfer;
     }
 
     public User() {
-
+        this.wallet = 0.0F;
     }
 
     public UUID getId() {
@@ -97,12 +97,12 @@ public class User {
         this.password = password;
     }
 
-    public UserType getUsersType() {
-        return usersType;
+    public UserType getUserType() {
+        return userType;
     }
 
-    public void setUsersType(UserType usersType) {
-        this.usersType = usersType;
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     public Float getWallet() {
