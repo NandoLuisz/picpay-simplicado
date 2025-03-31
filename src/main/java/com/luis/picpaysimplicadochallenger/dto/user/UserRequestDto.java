@@ -1,4 +1,4 @@
-package com.luis.picpaysimplicadochallenger.dto;
+package com.luis.picpaysimplicadochallenger.dto.user;
 
 import com.luis.picpaysimplicadochallenger.ultis.UserType;
 import jakarta.validation.constraints.Email;
@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record UserRequest(
+public record UserRequestDto(
+        @NotBlank(message = "Primeiro nome é obrigaório.")
+        String fisrtname,
 
-        @NotBlank(message = "Nome é obrigaório.")
-        String name,
+        @NotBlank(message = "Último nome é obrigaório.")
+        String lastname,
 
         @NotBlank(message = "E-mail é obrigaório.")
         @Email(message = "E-mail inválido")
@@ -20,7 +22,7 @@ public record UserRequest(
         String password,
 
         @NotBlank(message = "CPF/CNPJ é obrigatório")
-        String codeId,
+        String document,
 
         @NotNull(message = "O tipo de usuário é obrigatório.")
         UserType userType){

@@ -1,8 +1,11 @@
 package com.luis.picpaysimplicadochallenger.domain;
 
+import com.luis.picpaysimplicadochallenger.dto.user.UserRequestDto;
 import com.luis.picpaysimplicadochallenger.ultis.UserType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity(name = "users")
@@ -10,11 +13,14 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String firstname;
+
+    @Column(nullable = false)
+    private String lastname;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -23,62 +29,51 @@ public class User {
     private String password;
 
     @Column(nullable = false, unique = true)
-    private String codeId;
-
-    @Column(nullable = false, unique = true)
-    private Integer codeTransfer;
+    private String document;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserType userType;
 
-    @Column(nullable = false)
-    private Float wallet;
+    @PositiveOrZero(message = "O saldo não pode ser negativo.")
+    @Column(nullable = false, columnDefinition = "DECIMAL(10,2) DEFAULT 0.00")
+    private BigDecimal wallet;
 
-    public User(String name, String email, String password, String codeId, UserType userType, Integer codeTransfer) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.codeId = codeId;
-        this.userType = userType;
-        this.wallet = 0.0F;
-        this.codeTransfer = codeTransfer;
+    public User(UserRequestDto data) {
+        this.firstname = data.fisrtname();
+        this.lastname = data.lastname();
+        this.email = data.email();
+        this.password = data.password();
+        this.document = data.document();
+        this.userType = data.userType();
     }
 
     public User() {
-        this.wallet = 0.0F;
+
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getCodeId() {
-        return codeId;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setCodeId(String codeId) {
-        this.codeId = codeId;
-    }
-
-    public Integer getCodeTransfer() {
-        return codeTransfer;
-    }
-
-    public void setCodeTransfer(Integer codeTransfer) {
-        this.codeTransfer = codeTransfer;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -97,6 +92,14 @@ public class User {
         this.password = password;
     }
 
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
+    }
+
     public UserType getUserType() {
         return userType;
     }
@@ -105,11 +108,11 @@ public class User {
         this.userType = userType;
     }
 
-    public Float getWallet() {
+    public BigDecimal getWallet() {
         return wallet;
     }
 
-    public void setWallet(Float wallet) {
+    public void setWallet(BigDecimal wallet) {
         this.wallet = wallet;
     }
 }

@@ -1,4 +1,4 @@
-package com.luis.picpaysimplicadochallenger.dto;
+package com.luis.picpaysimplicadochallenger.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
