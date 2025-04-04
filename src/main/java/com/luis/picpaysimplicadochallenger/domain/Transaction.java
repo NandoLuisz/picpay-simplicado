@@ -15,7 +15,7 @@ public class Transaction {
     private Long id;
 
     @Column(nullable = false)
-    private BigDecimal value;
+    private BigDecimal amount;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -27,8 +27,8 @@ public class Transaction {
 
     private LocalDateTime timestamp;
 
-    public Transaction(BigDecimal value, User sender, User receiver, LocalDateTime timestamp) {
-        this.value = value;
+    public Transaction(BigDecimal amount, User sender, User receiver, LocalDateTime timestamp) {
+        this.amount = amount;
         this.sender = sender;
         this.receiver = receiver;
         this.timestamp = timestamp;
@@ -44,14 +44,6 @@ public class Transaction {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
     }
 
     public User getSender() {
@@ -76,5 +68,13 @@ public class Transaction {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }

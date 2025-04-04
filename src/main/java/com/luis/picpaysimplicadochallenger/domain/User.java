@@ -3,10 +3,8 @@ package com.luis.picpaysimplicadochallenger.domain;
 import com.luis.picpaysimplicadochallenger.dto.user.UserRequestDto;
 import com.luis.picpaysimplicadochallenger.ultis.UserType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity(name = "users")
 @Table(name = "users")
@@ -35,8 +33,6 @@ public class User {
     @Column(nullable = false)
     private UserType userType;
 
-    @PositiveOrZero(message = "O saldo não pode ser negativo.")
-    @Column(nullable = false, columnDefinition = "DECIMAL(10,2) DEFAULT 0.00")
     private BigDecimal wallet;
 
     public User(UserRequestDto data) {
@@ -46,11 +42,24 @@ public class User {
         this.password = data.password();
         this.document = data.document();
         this.userType = data.userType();
+        this.wallet = data.wallet();
     }
 
     public User() {
 
     }
+
+    public User(Long id, String firstname, String lastname, String email, String password, String document, UserType userType, BigDecimal wallet) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.document = document;
+        this.userType = userType;
+        this.wallet = wallet;
+    }
+
 
     public Long getId() {
         return id;
